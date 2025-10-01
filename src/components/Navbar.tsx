@@ -1,18 +1,15 @@
-import React, { useState, useCallback, useTransition } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 const Navbar: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [, startTransition] = useTransition();
 
   const scrollToSection = useCallback((sectionId: string) => {
-    startTransition(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
     setIsMobileMenuOpen(false);
   }, []);
 

@@ -16,7 +16,7 @@ const Projects: React.FC = () => {
           <div className="project-card">
             <div className="project-header">
               <i className="fa-solid fa-university"></i>
-              <h3>{t('projects.ai.title')}</h3>
+              <h3>{t('projects.openbanking.title')}</h3>
             </div>
             <div className="video-placeholder">
               <a href="https://youtu.be/EmqhcdBvW1s" target="_blank" rel="noopener noreferrer" className="video-link">
@@ -27,13 +27,13 @@ const Projects: React.FC = () => {
                 </div>
               </a>
             </div>
-            <p className="description">{t('projects.ai.description')}</p>
+            <p className="description">{t('projects.openbanking.description')}</p>
           </div>
 
           <div className="project-card">
             <div className="project-header">
               <i className="fa-solid fa-music"></i>
-              <h3>{t('projects.security.title')}</h3>
+              <h3>{t('projects.ar_piano.title')}</h3>
             </div>
             <div className="video-placeholder">
               <a href="https://youtu.be/KBo5BJZzCt4" target="_blank" rel="noopener noreferrer" className="video-link">
@@ -44,19 +44,9 @@ const Projects: React.FC = () => {
                 </div>
               </a>
             </div>
-            <p className="description">{t('projects.security.description')}</p>
+            <p className="description">{t('projects.ar_piano.description')}</p>
           </div>
 
-          <div className="project-card">
-            <div className="project-header">
-              <i className="fa-solid fa-city"></i>
-              <h3>{t('projects.smartcity.title')}</h3>
-            </div>
-            <div className="video-placeholder">
-              <i className="fa-solid fa-play-circle"></i>
-            </div>
-            <p className="description">{t('projects.smartcity.description')}</p>
-          </div>
         </div>
       </div>
     </section>

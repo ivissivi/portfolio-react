@@ -1,31 +1,65 @@
-import React, { useCallback, useTransition } from 'react';
+import React, { useCallback, useTransition, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
   const [isPending, startTransition] = useTransition();
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   const scrollToSection = useCallback((sectionId: string) => {
-    startTransition(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }, []);
 
   const downloadCV = useCallback(() => {
+    setDownloadError(null); // Clear any previous errors
     startTransition(() => {
       try {
-        const link = document.createElement('a');
-        link.href = '/Ivars_Sloka_CV.pdf';
-        link.download = 'Ivars_Sloka_CV.pdf';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Use process.env.PUBLIC_URL for proper path resolution in production
+        const baseUrl = process.env.PUBLIC_URL || '';
+        const cvPath = `${baseUrl}/Ivars_Sloka_CV.pdf`;
+        
+        // Check if the file exists by making a HEAD request
+        fetch(cvPath, { method: 'HEAD' })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`CV file not found (${response.status})`);
+            }
+            
+            const link = document.createElement('a');
+            link.href = cvPath;
+            link.download = 'Ivars_Sloka_CV.pdf';
+            link.style.display = 'none';
+            link.target = '_blank'; // Fallback for browsers that don't support download
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Add a small delay to ensure download starts before cleanup
+            setTimeout(() => {
+              if (document.body.contains(link)) {
+                document.body.removeChild(link);
+              }
+            }, 100);
+          })
+          .catch(error => {
+            console.error('Download failed:', error);
+            setDownloadError('Failed to download CV. Please try again or check your internet connection.');
+            
+            // Fallback: try to open in new tab
+            window.open(cvPath, '_blank');
+          });
       } catch (error) {
-        window.open('/Ivars_Sloka_CV.pdf', '_blank');
+        console.error('Download failed:', error);
+        setDownloadError('Failed to download CV. Please try again or check your internet connection.');
+        
+        // Fallback: try to open in new tab
+        const baseUrl = process.env.PUBLIC_URL || '';
+        const cvPath = `${baseUrl}/Ivars_Sloka_CV.pdf`;
+        window.open(cvPath, '_blank');
       }
     });
   }, []);
@@ -41,7 +75,8 @@ const Hero: React.FC = () => {
           <i className="fa-brands fa-python"></i>
           <i className="fa-brands fa-java"></i>
           <i className="fa-brands fa-react"></i>
-          <i className="fa-brands fa-swift"></i>
+          <i className="fa-brands fa-php"></i>
+          <i className="fa-brands fa-js"></i>
         </div>
         
         <div className="cta-buttons">
@@ -78,6 +113,21 @@ const Hero: React.FC = () => {
             <span>{t('hero.projects')}</span>
           </button>
         </div>
+        
+        {downloadError && (
+          <div className="download-error" style={{ 
+            marginTop: '1rem', 
+            padding: '0.75rem', 
+            backgroundColor: '#ffebee', 
+            color: '#c62828', 
+            borderRadius: '4px',
+            fontSize: '0.9rem',
+            textAlign: 'center'
+          }}>
+            <i className="fa-solid fa-exclamation-triangle" style={{ marginRight: '0.5rem' }}></i>
+            {downloadError}
+          </div>
+        )}
       </div>
     </section>
   );
