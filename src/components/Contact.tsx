@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -8,13 +9,37 @@ const Contact: React.FC = () => {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // EmailJS configuration - you'll need to replace these with your actual values
+      const serviceId = 'YOUR_SERVICE_ID';
+      const templateId = 'YOUR_TEMPLATE_ID';
+      const publicKey = 'YOUR_PUBLIC_KEY';
+
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_email: 'slokaivars@gmail.com'
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -92,9 +117,23 @@ const Contact: React.FC = () => {
                 />
               </div>
               
-              <button type="submit" className="btn primary">
-                {t('contact.send')}
+              <button type="submit" className="btn primary" disabled={isSubmitting}>
+                {isSubmitting ? t('contact.sending') : t('contact.send')}
               </button>
+              
+              {submitStatus === 'success' && (
+                <div className="form-status success">
+                  <i className="fa-solid fa-check-circle"></i>
+                  {t('contact.success')}
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="form-status error">
+                  <i className="fa-solid fa-exclamation-circle"></i>
+                  {t('contact.error')}
+                </div>
+              )}
             </form>
           </div>
         </div>

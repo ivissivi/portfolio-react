@@ -235,6 +235,21 @@ export const translations = {
         "lv": "Sūtīt ziņu",
         "ru": "Отправить сообщение"
     },
+    "contact.sending": {
+        "en": "Sending...",
+        "lv": "Sūta...",
+        "ru": "Отправка..."
+    },
+    "contact.success": {
+        "en": "Message sent successfully!",
+        "lv": "Ziņa nosūtīta veiksmīgi!",
+        "ru": "Сообщение отправлено успешно!"
+    },
+    "contact.error": {
+        "en": "Failed to send message. Please try again.",
+        "lv": "Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz.",
+        "ru": "Не удалось отправить сообщение. Пожалуйста, попробуйте еще раз."
+    },
     "footer.name": {
         "en": "Ivars Sloka",
         "lv": "Ivars Sloka",
