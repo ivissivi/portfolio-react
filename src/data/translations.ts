@@ -237,7 +237,7 @@ export const translations = {
     },
     "footer.name": {
         "en": "Ivars Sloka",
-        "lv": "Ivars Sloka",
+        "lv": "Bubliks",
         "ru": "Иварс Слока"
     },
     "footer.rights": {
