@@ -264,8 +264,8 @@ body::before {
     color: var(--primary-color);
     margin-bottom: 1.2rem;
     animation: fadeInUp 1s ease-out 0.2s;
-    opacity: 1;
-    animation-fill-mode: both;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
 
 .hero p {
@@ -273,8 +273,8 @@ body::before {
     color: var(--text-light);
     margin-bottom: 1.5rem;
     animation: fadeInUp 1s ease-out 0.4s;
-    opacity: 1;
-    animation-fill-mode: both;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
 
 .tech-icons {
@@ -283,8 +283,8 @@ body::before {
     gap: 1.5rem;
     margin-bottom: 2.5rem;
     animation: fadeInUp 1s ease-out 0.6s;
-    opacity: 1;
-    animation-fill-mode: both;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
 
 .tech-icons i {
@@ -305,8 +305,8 @@ body::before {
     flex-wrap: wrap;
     justify-content: center;
     animation: fadeInUp 1s ease-out 0.8s;
-    opacity: 1;
-    animation-fill-mode: both;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
 
 .btn {
@@ -326,8 +326,8 @@ body::before {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: fadeInUp 1s ease-out 0.8s;
-    opacity: 1;
-    animation-fill-mode: both;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
 
 .btn .icon {
@@ -984,28 +984,6 @@ footer p {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-/* Prevent elements from disappearing during loading */
-.hero h1,
-.hero h2,
-.hero p,
-.tech-icons,
-.cta-buttons,
-.btn {
-    min-height: 1em;
-    visibility: visible !important;
-}
-
-/* Ensure buttons are always clickable */
-.btn {
-    pointer-events: auto !important;
-    cursor: pointer !important;
-}
-
-/* Prevent flash of invisible content */
-.hero * {
-    opacity: 1 !important;
 }
 
 /* Responsive Design */
