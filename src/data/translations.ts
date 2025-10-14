@@ -246,9 +246,9 @@ export const translations = {
         "ru": "Сообщение отправлено успешно!"
     },
     "contact.error": {
-        "en": "Failed to send message. Please try again.",
-        "lv": "Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz.",
-        "ru": "Не удалось отправить сообщение. Пожалуйста, попробуйте еще раз."
+        "en": "Failed to send message. Please try again or contact me directly at slokaivars@gmail.com",
+        "lv": "Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz vai sazinieties ar mani tieši: slokaivars@gmail.com",
+        "ru": "Не удалось отправить сообщение. Пожалуйста, попробуйте еще раз или свяжитесь со мной напрямую: slokaivars@gmail.com"
     },
     "footer.name": {
         "en": "Ivars Sloka",

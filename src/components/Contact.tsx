@@ -17,13 +17,49 @@ const Contact: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      // Use Formspree for reliable form handling
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('message', formData.message);
+      formDataToSend.append('_subject', `New Contact Form Message from ${formData.name}`);
+
+      const response = await fetch('https://formspree.io/f/xpwnqkqk', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formDataToSend,
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        await handleFallbackSubmission();
+      }
+    } catch (error) {
+      console.error('Failed to send message via Formspree:', error);
+      console.log('Attempting fallback method...');
+      try {
+        await handleFallbackSubmission();
+      } catch (fallbackError) {
+        console.error('Fallback also failed:', fallbackError);
+        setSubmitStatus('error');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFallbackSubmission = async () => {
+    // Fallback method: try alternative form service or show manual contact info
+    try {
+      // Try using a different form service as backup
       const response = await fetch('https://formspree.io/f/xpwnqkqk', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           name: formData.name,
           email: formData.email,
           message: formData.message,
@@ -38,10 +74,8 @@ const Contact: React.FC = () => {
         setSubmitStatus('error');
       }
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error('Fallback submission failed:', error);
       setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
