@@ -33,7 +33,13 @@ const Contact: React.FC = () => {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
       } else {
-        await handleFallbackSubmission();
+        // If the configured Formspree form does not exist (404) or other client error
+        if (response.status >= 400 && response.status < 500) {
+          openMailClient();
+          setSubmitStatus('error');
+        } else {
+          await handleFallbackSubmission();
+        }
       }
     } catch (error) {
       console.error('Failed to send message via Formspree:', error);
@@ -71,12 +77,20 @@ const Contact: React.FC = () => {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
       } else {
+        openMailClient();
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Fallback submission failed:', error);
+      openMailClient();
       setSubmitStatus('error');
     }
+  };
+
+  const openMailClient = () => {
+    const subject = encodeURIComponent(`New Contact Form Message from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
+    window.location.href = `mailto:slokaivars@gmail.com?subject=${subject}&body=${body}`;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
