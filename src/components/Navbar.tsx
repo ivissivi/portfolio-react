@@ -14,9 +14,9 @@ const Navbar: React.FC = () => {
   }, []);
 
   const languages = [
-    { code: 'en', flag: '🇬🇧', name: 'EN' },
-    { code: 'lv', flag: '🇱🇻', name: 'LV' },
-    { code: 'ru', flag: '🇷🇺', name: 'RU' }
+    { code: 'en', flagCode: 'gb', name: 'EN' },
+    { code: 'lv', flagCode: 'lv', name: 'LV' },
+    { code: 'ru', flagCode: 'ru', name: 'RU' }
   ];
 
   return (
@@ -58,7 +58,12 @@ const Navbar: React.FC = () => {
                 className={`lang-btn ${language === lang.code ? 'active' : ''}`}
                 onClick={() => setLanguage(lang.code)}
               >
-                <span className="flag">{lang.flag}</span>
+                <img 
+                  src={`https://flagcdn.com/w20/${lang.flagCode}.png`}
+                  alt={`${lang.name} flag`}
+                  className="flag-icon"
+                  loading="lazy"
+                />
                 <span>{lang.name}</span>
               </button>
             ))}

@@ -111,9 +111,13 @@ body::before {
     border-radius: 4px;
 }
 
-.lang-btn .flag {
-    font-size: 1.2rem;
-    line-height: 1;
+.lang-btn .flag-icon {
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: cover;
+    border-radius: 2px;
 }
 
 .lang-btn:hover {
