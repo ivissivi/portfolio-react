@@ -1,5 +1,6 @@
 import React, { useCallback, useTransition, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { techIcons, heroButtons, HeroAction } from '../data/content';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
@@ -17,8 +18,8 @@ const Hero: React.FC = () => {
     setDownloadError(null); // Clear any previous errors
     startTransition(() => {
       try {
-        // Use process.env.PUBLIC_URL for proper path resolution in production
-        const baseUrl = process.env.PUBLIC_URL || '';
+        // Use Vite's BASE_URL for proper path resolution in production
+        const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
         const cvPath = `${baseUrl}/Ivars_Sloka_CV.pdf`;
         
         // Check if the file exists by making a HEAD request
@@ -57,12 +58,20 @@ const Hero: React.FC = () => {
         setDownloadError('Failed to download CV. Please try again or check your internet connection.');
         
         // Fallback: try to open in new tab
-        const baseUrl = process.env.PUBLIC_URL || '';
+        const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
         const cvPath = `${baseUrl}/Ivars_Sloka_CV.pdf`;
         window.open(cvPath, '_blank');
       }
     });
   }, []);
+
+  const handleAction = useCallback((action: HeroAction) => {
+    if (action === 'download') {
+      downloadCV();
+    } else {
+      scrollToSection(action);
+    }
+  }, [downloadCV, scrollToSection]);
 
   return (
     <section className="hero" id="hero">
@@ -72,46 +81,25 @@ const Hero: React.FC = () => {
         <p>{t('hero.description')}</p>
         
         <div className="tech-icons">
-          <i className="fa-brands fa-python"></i>
-          <i className="fa-brands fa-java"></i>
-          <i className="fa-brands fa-react"></i>
-          <i className="fa-brands fa-php"></i>
-          <i className="fa-brands fa-js"></i>
+          {techIcons.map((icon) => (
+            <i key={icon} className={icon}></i>
+          ))}
         </div>
-        
+
         <div className="cta-buttons">
-          <button 
-            onClick={() => scrollToSection('contact')} 
-            className="btn primary"
-            disabled={isPending}
-          >
-            <span className="icon">
-              {isPending ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-envelope"></i>}
-            </span>
-            <span>{t('hero.contact')}</span>
-          </button>
-          
-          <button 
-            onClick={downloadCV} 
-            className="btn secondary"
-            disabled={isPending}
-          >
-            <span className="icon">
-              {isPending ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-download"></i>}
-            </span>
-            <span>{t('hero.download')}</span>
-          </button>
-          
-          <button 
-            onClick={() => scrollToSection('projects')} 
-            className="btn secondary"
-            disabled={isPending}
-          >
-            <span className="icon">
-              {isPending ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-code-branch"></i>}
-            </span>
-            <span>{t('hero.projects')}</span>
-          </button>
+          {heroButtons.map((button) => (
+            <button
+              key={button.action}
+              onClick={() => handleAction(button.action)}
+              className={`btn ${button.variant}`}
+              disabled={isPending}
+            >
+              <span className="icon">
+                {isPending ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className={button.icon}></i>}
+              </span>
+              <span>{t(button.labelKey)}</span>
+            </button>
+          ))}
         </div>
         
         {downloadError && (

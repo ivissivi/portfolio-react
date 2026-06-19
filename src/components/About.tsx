@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import SectionHeading from './SectionHeading';
+import { aboutParagraphs } from '../data/content';
 
 const About: React.FC = () => {
   const { t } = useLanguage();
@@ -7,22 +9,19 @@ const About: React.FC = () => {
   return (
     <section id="about" className="about">
       <div className="container">
-        <h2>
-          <i className="fa-solid fa-user"></i>
-          <span>{t('about.title')}</span>
-        </h2>
-        
+        <SectionHeading icon="fa-solid fa-user" titleKey="about.title" />
+
         <div className="about-content">
           <div className="about-image">
             <div className="image-placeholder">
               <img src="/static/images/profile.jpg" alt="Ivars Sloka" className="profile-image" />
             </div>
           </div>
-          
+
           <div className="about-text">
-            <p>{t('about.description1')}</p>
-            <p>{t('about.description2')}</p>
-            <p>{t('about.description3')}</p>
+            {aboutParagraphs.map((key) => (
+              <p key={key}>{t(key)}</p>
+            ))}
           </div>
         </div>
       </div>

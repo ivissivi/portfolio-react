@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import SectionHeading from './SectionHeading';
+import { experience } from '../data/content';
 
 const Experience: React.FC = () => {
   const { t } = useLanguage();
@@ -7,43 +9,26 @@ const Experience: React.FC = () => {
   return (
     <section id="experience" className="experience">
       <div className="container">
-        <h2>
-          <i className="fa-solid fa-briefcase"></i>
-          <span>{t('experience.title')}</span>
-        </h2>
-        
-        <div className="experience-grid">
-          <div className="experience-card">
-            <div className="experience-header">
-              <div className="company-info">
-                <h3>{t('experience.gocardless.title')}</h3>
-                <div className="company-row">
-                  <div className="company-logo">
-                    <img src="/static/images/companies/gocardless.png" alt="GoCardless Logo" />
-                  </div>
-                  <p className="company">{t('experience.gocardless.company')}</p>
-                </div>
-                <p className="duration">{t('experience.gocardless.duration')}</p>
-              </div>
-            </div>
-            <p className="description">{t('experience.gocardless.description')}</p>
-          </div>
+        <SectionHeading icon="fa-solid fa-briefcase" titleKey="experience.title" />
 
-          <div className="experience-card">
-            <div className="experience-header">
-              <div className="company-info">
-                <h3>{t('experience.qa.title')}</h3>
-                <div className="company-row">
-                  <div className="company-logo">
-                    <img src="/static/images/companies/testdevlab.png" alt="TestDevLab Logo" />
+        <div className="experience-grid">
+          {experience.map((item) => (
+            <div className="experience-card" key={item.key}>
+              <div className="experience-header">
+                <div className="company-info">
+                  <h3>{t(`${item.key}.title`)}</h3>
+                  <div className="company-row">
+                    <div className="company-logo">
+                      <img src={item.logo} alt={item.logoAlt} />
+                    </div>
+                    <p className="company">{t(`${item.key}.company`)}</p>
                   </div>
-                  <p className="company">{t('experience.qa.company')}</p>
+                  <p className="duration">{t(`${item.key}.duration`)}</p>
                 </div>
-                <p className="duration">{t('experience.qa.duration')}</p>
               </div>
+              <p className="description">{t(`${item.key}.description`)}</p>
             </div>
-            <p className="description">{t('experience.qa.description')}</p>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import SectionHeading from './SectionHeading';
+import { contactDetails, socialLinks, contactFields } from '../data/content';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -89,71 +91,54 @@ const Contact: React.FC = () => {
   return (
     <section id="contact" className="contact">
       <div className="container">
-        <h2>
-          <i className="fa-solid fa-envelope"></i>
-          <span>{t('contact.title')}</span>
-        </h2>
-        
+        <SectionHeading icon="fa-solid fa-envelope" titleKey="contact.title" />
+
         <div className="contact-content">
           <div className="contact-info">
             <div className="contact-details">
-              <p>
-                <i className="fa-solid fa-envelope"></i>
-                <a href="mailto:slokaivars@gmail.com">slokaivars@gmail.com</a>
-              </p>
-              <p>
-                <i className="fa-solid fa-phone"></i>
-                <a href="tel:+37128687728">+371 28687728</a>
-              </p>
+              {contactDetails.map((detail) => (
+                <p key={detail.href}>
+                  <i className={detail.icon}></i>
+                  <a href={detail.href}>{detail.text}</a>
+                </p>
+              ))}
             </div>
-            
+
             <div className="social-links">
-              <a href="https://linkedin.com/in/ivars-sloka" className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fa-brands fa-linkedin"></i>
-              </a>
-              <a href="https://github.com/ivissivi" className="social-link" target="_blank" rel="noopener noreferrer">
-                <i className="fa-brands fa-github"></i>
-              </a>
+              {socialLinks.map((link) => (
+                <a key={link.href} href={link.href} className="social-link" target="_blank" rel="noopener noreferrer">
+                  <i className={link.icon}></i>
+                </a>
+              ))}
             </div>
           </div>
-          
+
           <div className="contact-form">
             <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <i className="fa-solid fa-user"></i>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder={t('contact.name')}
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <i className="fa-solid fa-envelope"></i>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder={t('contact.email')}
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <i className="fa-solid fa-comment"></i>
-                <textarea
-                  name="message"
-                  placeholder={t('contact.message')}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
+              {contactFields.map((field) => (
+                <div className="form-group" key={field.name}>
+                  <i className={field.icon}></i>
+                  {field.multiline ? (
+                    <textarea
+                      name={field.name}
+                      placeholder={t(field.placeholderKey)}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      required
+                    />
+                  ) : (
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      placeholder={t(field.placeholderKey)}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      required
+                    />
+                  )}
+                </div>
+              ))}
+
               <button type="submit" className="btn primary" disabled={isSubmitting}>
                 {isSubmitting ? t('contact.sending') : t('contact.send')}
               </button>

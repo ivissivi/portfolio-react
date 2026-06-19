@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import SectionHeading from './SectionHeading';
+import { projects } from '../data/content';
 
 const Projects: React.FC = () => {
   const { t } = useLanguage();
@@ -7,46 +9,27 @@ const Projects: React.FC = () => {
   return (
     <section id="projects" className="projects">
       <div className="container">
-        <h2>
-          <i className="fa-solid fa-code-branch"></i>
-          <span>{t('projects.title')}</span>
-        </h2>
-        
+        <SectionHeading icon="fa-solid fa-code-branch" titleKey="projects.title" />
+
         <div className="projects-grid">
-          <div className="project-card">
-            <div className="project-header">
-              <i className="fa-solid fa-university"></i>
-              <h3>{t('projects.openbanking.title')}</h3>
+          {projects.map((project) => (
+            <div className="project-card" key={project.key}>
+              <div className="project-header">
+                <i className={project.icon}></i>
+                <h3>{t(`${project.key}.title`)}</h3>
+              </div>
+              <div className="video-placeholder">
+                <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="video-link">
+                  <img src={project.thumbnail} alt={project.thumbnailAlt} className="video-thumbnail" />
+                  <div className="video-overlay">
+                    <i className="fa-solid fa-play-circle"></i>
+                    <span className="video-text">{t('projects.watch_demo')}</span>
+                  </div>
+                </a>
+              </div>
+              <p className="description">{t(`${project.key}.description`)}</p>
             </div>
-            <div className="video-placeholder">
-              <a href="https://youtu.be/EmqhcdBvW1s" target="_blank" rel="noopener noreferrer" className="video-link">
-                <img src="https://img.youtube.com/vi/EmqhcdBvW1s/maxresdefault.jpg" alt="Open Banking Solution Demo" className="video-thumbnail" />
-                <div className="video-overlay">
-                  <i className="fa-solid fa-play-circle"></i>
-                  <span className="video-text">{t('projects.watch_demo')}</span>
-                </div>
-              </a>
-            </div>
-            <p className="description">{t('projects.openbanking.description')}</p>
-          </div>
-
-          <div className="project-card">
-            <div className="project-header">
-              <i className="fa-solid fa-music"></i>
-              <h3>{t('projects.ar_piano.title')}</h3>
-            </div>
-            <div className="video-placeholder">
-              <a href="https://youtu.be/KBo5BJZzCt4" target="_blank" rel="noopener noreferrer" className="video-link">
-                <img src="https://img.youtube.com/vi/KBo5BJZzCt4/maxresdefault.jpg" alt="Piano Learning Solution Demo" className="video-thumbnail" />
-                <div className="video-overlay">
-                  <i className="fa-solid fa-play-circle"></i>
-                  <span className="video-text">{t('projects.watch_demo')}</span>
-                </div>
-              </a>
-            </div>
-            <p className="description">{t('projects.ar_piano.description')}</p>
-          </div>
-
+          ))}
         </div>
       </div>
     </section>
