@@ -14,19 +14,19 @@ const Experience: React.FC = () => {
         <div className="experience-grid">
           {experience.map((item) => (
             <div className="experience-card" key={item.key}>
-              <div className="experience-header">
-                <div className="company-info">
-                  <h3>{t(`${item.key}.title`)}</h3>
-                  <div className="company-row">
-                    <div className="company-logo">
-                      <img src={item.logo} alt={item.logoAlt} />
-                    </div>
-                    <p className="company">{t(`${item.key}.company`)}</p>
-                  </div>
-                  <p className="duration">{t(`${item.key}.duration`)}</p>
+              <div className="entry-meta">
+                <span className="entry-duration">{t(`${item.key}.duration`)}</span>
+                <div className="entry-org">
+                  <span className="company-logo">
+                    <img src={item.logo} alt={item.logoAlt} />
+                  </span>
+                  <span className="company">{t(`${item.key}.company`)}</span>
                 </div>
               </div>
-              <p className="description">{t(`${item.key}.description`)}</p>
+              <div className="entry-body">
+                <h3>{t(`${item.key}.title`)}</h3>
+                <p className="description">{t(`${item.key}.description`)}</p>
+              </div>
             </div>
           ))}
         </div>

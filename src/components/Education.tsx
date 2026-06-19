@@ -14,17 +14,19 @@ const Education: React.FC = () => {
         <div className="education-grid">
           {education.map((item) => (
             <div className="education-card" key={item.key}>
-              <div className="education-header">
-                <div className="logo-container" style={{width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f0f0f0', borderRadius: '8px', overflow: 'hidden'}}>
-                  <img src={item.logo} alt={item.logoAlt} style={{width: '60px', height: '60px', objectFit: 'contain'}} />
-                </div>
-                <div className="education-info">
-                  <h3>{t(`${item.key}.title`)}</h3>
-                  <p className="institution">{t(`${item.key}.institution`)}</p>
-                  <p className="duration">{t(`${item.key}.duration`)}</p>
+              <div className="entry-meta">
+                <span className="entry-duration">{t(`${item.key}.duration`)}</span>
+                <div className="entry-org">
+                  <span className="logo-container">
+                    <img src={item.logo} alt={item.logoAlt} />
+                  </span>
+                  <span className="company">{t(`${item.key}.institution`)}</span>
                 </div>
               </div>
-              <p className="description">{t(`${item.key}.description`)}</p>
+              <div className="entry-body">
+                <h3>{t(`${item.key}.title`)}</h3>
+                <p className="description">{t(`${item.key}.description`)}</p>
+              </div>
             </div>
           ))}
         </div>

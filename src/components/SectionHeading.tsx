@@ -9,10 +9,12 @@ interface SectionHeadingProps {
 const SectionHeading: React.FC<SectionHeadingProps> = ({ icon, titleKey }) => {
   const { t } = useLanguage();
   return (
-    <h2>
-      <i className={icon}></i>
-      <span>{t(titleKey)}</span>
-    </h2>
+    <div className="section-head">
+      <h2>
+        <i className={icon}></i>
+        <span>{t(titleKey)}</span>
+      </h2>
+    </div>
   );
 };
 
